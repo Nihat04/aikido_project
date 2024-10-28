@@ -1,5 +1,18 @@
 *,
 *::after,
 *::before {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+body {
+    background: #E2E2E2;
+    font-family: "Montserrat", sans-serif;
+}
+
+a {
+    text-decoration: none;
 }
