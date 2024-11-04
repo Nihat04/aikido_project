@@ -27,7 +27,7 @@ const Header = () => {
                 <div className={styles['logo']}>
                     <Link className={styles['logo']} to={'/'}>
                         <img className={styles['logo__img']} src={logo} />
-                        <p className={styles['logo__text']}>Название школы</p>
+                        <p className={styles['logo__text']}>Dolma Dojo</p>
                     </Link>
                 </div>
                 <nav className={styles['nav']}>
