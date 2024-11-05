@@ -2,12 +2,13 @@ import styles from '../styles/index.module.css';
 
 import { ThemeProvider } from '@emotion/react';
 import { FieldValues, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { handleErrors, theme } from '../model';
 import { AuthButton, AuthInput, AuthPasswordInput, TopLogo } from '../ui';
 
 import { MailIcon, EditProfileIcon } from '../assets/components';
+import { registerUser } from '../api/signup';
 
 export const RegPage = () => {
     const {
@@ -16,8 +17,8 @@ export const RegPage = () => {
         setError,
         formState: { errors },
     } = useForm();
-
-    const onSubmit = (data: FieldValues) => {
+    const navigate = useNavigate();
+    const onSubmit = async (data: FieldValues) => {
         if (data.password !== data.confirmPassword) {
             setError('global', {
                 type: 'pattern',
@@ -25,11 +26,17 @@ export const RegPage = () => {
             });
             return;
         }
-
-        setError('global', {
-            type: 'server',
-            message: 'Ошибка запроса на бэк',
-        });
+        try {
+            const isSuccessfull = await registerUser(data);
+            if (isSuccessfull) {
+                navigate('/login');
+            }
+        } catch {
+            setError('global', {
+                type: 'server',
+                message: 'Ошибка запроса на бэк',
+            });
+        }
     };
 
     return (
@@ -42,7 +49,7 @@ export const RegPage = () => {
                             label="Имя"
                             type="text"
                             endAdorment={<EditProfileIcon />}
-                            formRegister={register('username', {
+                            formRegister={register('fullName', {
                                 required: 'Поле "Имя" обязательна к заполнению',
                                 minLength: {
                                     value: 2,

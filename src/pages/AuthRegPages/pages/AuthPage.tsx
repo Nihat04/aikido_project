@@ -1,13 +1,14 @@
 import styles from '../styles/index.module.css';
 
 import { ThemeProvider } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { FieldValues, useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { AuthInput, AuthPasswordInput, AuthButton, TopLogo } from '../ui';
 import { theme, handleErrors } from '../model';
 
 import { MailIcon } from '../assets/components';
+import { loginUser } from '../api/login';
 
 export const AuthPage = () => {
     const {
@@ -16,12 +17,20 @@ export const AuthPage = () => {
         setError,
         formState: { errors },
     } = useForm();
-
-    const onSubmit = () => {
-        setError('global', {
-            type: 'server',
-            message: 'Ошибка запроса на бэк',
-        });
+    const navigate = useNavigate();
+    const onSubmit = async (data: FieldValues) => {
+        try {
+            const coachID = await loginUser(data);
+            if (coachID) {
+                localStorage.setItem('coachID', coachID);
+                navigate('/');
+            }
+        } catch (error) {
+            setError('global', {
+                type: 'server',
+                message: `${error}`,
+            });
+        }
     };
 
     return (
