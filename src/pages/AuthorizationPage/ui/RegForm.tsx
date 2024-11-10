@@ -1,34 +1,40 @@
 import styles from '../styles/index.module.css';
 
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@emotion/react';
 import { FieldValues, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
-import { AuthInput, AuthPasswordInput, AuthButton, TopLogo } from '../ui';
-import { theme, handleErrors } from '../model';
+import { handleErrors, theme } from '../model';
+import { AuthButton, AuthInput, AuthPasswordInput, TopLogo } from '.';
 
-import { MailIcon } from '../assets/components';
-import { loginUser } from '../api/login';
+import { MailIcon, EditProfileIcon } from '../assets/components';
+import { registerUser } from '../api/signup';
 
-export const AuthPage = () => {
+export const RegForm = () => {
     const {
         register,
         handleSubmit,
         setError,
         formState: { errors },
     } = useForm();
-    const navigate = useNavigate();
+    const [, setSearchParams] = useSearchParams();
     const onSubmit = async (data: FieldValues) => {
+        if (data.password !== data.confirmPassword) {
+            setError('global', {
+                type: 'pattern',
+                message: 'Пароли не совпадают',
+            });
+            return;
+        }
         try {
-            const coachID = await loginUser(data);
-            if (coachID) {
-                localStorage.setItem('coachID', coachID);
-                navigate('/');
+            const isSuccessfull = await registerUser(data);
+            if (isSuccessfull) {
+                setSearchParams({ form: 'auth' });
             }
-        } catch (error) {
+        } catch {
             setError('global', {
                 type: 'server',
-                message: `${error}`,
+                message: 'Ошибка запроса на бэк',
             });
         }
     };
@@ -39,6 +45,19 @@ export const AuthPage = () => {
             <form className={styles['form']} onSubmit={handleSubmit(onSubmit)}>
                 <ThemeProvider theme={theme}>
                     <div className={styles['form__inps']}>
+                        <AuthInput
+                            label="Имя"
+                            type="text"
+                            endAdorment={<EditProfileIcon />}
+                            formRegister={register('fullName', {
+                                required: 'Поле "Имя" обязательна к заполнению',
+                                minLength: {
+                                    value: 2,
+                                    message:
+                                        'Имя должно состоять минимум из 2 символов',
+                                },
+                            })}
+                        />
                         <AuthInput
                             label="Почта"
                             type="text"
@@ -59,6 +78,13 @@ export const AuthPage = () => {
                                     'Поле "Пароль" обязательна к заполнению',
                             })}
                         />
+                        <AuthPasswordInput
+                            label="Повторите пароль"
+                            formRegister={register('confirmPassword', {
+                                required:
+                                    'Поле "Повторите пароль" обязательна к заполнению',
+                            })}
+                        />
                         {handleErrors(errors).map((errorMsg, index) => (
                             <p
                                 key={index}
@@ -68,13 +94,13 @@ export const AuthPage = () => {
                             </p>
                         ))}
                     </div>
-                    <AuthButton type="submit">Войти</AuthButton>
+                    <AuthButton type="submit">Создать аккаунт</AuthButton>
                 </ThemeProvider>
             </form>
             <p className={styles['bottom-text']}>
-                Забыли пароль?{' '}
-                <Link className={styles['link']} to={'/register'}>
-                    Зарегестрироваться
+                Уже есть аккаунт?{' '}
+                <Link className={styles['link']} to={'/login'}>
+                    Войти тут
                 </Link>
             </p>
         </div>

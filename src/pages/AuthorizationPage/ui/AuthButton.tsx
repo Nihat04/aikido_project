@@ -3,16 +3,19 @@ import { ReactNode } from 'react';
 
 export const AuthButton = ({
     children,
+    className,
     onClick,
     type = 'button',
 }: {
     children: ReactNode;
+    className?: string;
     onClick?: (data: object) => void;
     type?: 'button' | 'submit' | 'reset';
 }) => {
     return (
         <Button
             variant="contained"
+            className={className}
             type={type}
             onClick={onClick}
             sx={{

@@ -1,9 +1,10 @@
 import './styles/index.css';
 
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 import MainPage from '../pages/MainPage/MainPage';
-import { AuthPage, RegPage } from '../pages/AuthRegPages';
+import AuthorizationPage from '../pages/AuthorizationPage';
+import { useEffect } from 'react';
 
 type route = {
     path: string;
@@ -11,14 +12,20 @@ type route = {
 };
 
 function App() {
+    const navigate = useNavigate();
+
     const publicRoutes: route[] = [
         { path: '/', element: <MainPage /> },
         { path: '/schedule', element: <MainPage /> },
         { path: '/groups', element: <MainPage /> },
         { path: '/visits', element: <MainPage /> },
-        { path: '/login', element: <AuthPage /> },
-        { path: '/register', element: <RegPage /> },
+        { path: '/login', element: <AuthorizationPage /> },
     ];
+
+    useEffect(() => {
+        navigate('/login');
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <>
