@@ -26,7 +26,7 @@ export const RoleSelector = () => {
                 <AuthButton
                     onClick={() =>
                         setSearchParams((params) => {
-                            params.set('form', 'auth');
+                            params.set('form', 'authCoach');
                             return params;
                         })
                     }
