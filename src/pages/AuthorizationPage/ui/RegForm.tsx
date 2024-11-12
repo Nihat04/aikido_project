@@ -2,7 +2,7 @@ import styles from '../styles/index.module.css';
 
 import { ThemeProvider } from '@emotion/react';
 import { FieldValues, useForm } from 'react-hook-form';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { handleErrors, theme } from '../model';
 import { AuthButton, AuthInput, AuthPasswordInput, TopLogo } from '.';
@@ -29,7 +29,10 @@ export const RegForm = () => {
         try {
             const isSuccessfull = await registerUser(data);
             if (isSuccessfull) {
-                setSearchParams({ form: 'auth' });
+                setSearchParams((params) => {
+                    params.set('form', 'auth');
+                    return params;
+                });
             }
         } catch {
             setError('global', {
@@ -99,7 +102,7 @@ export const RegForm = () => {
             </form>
             <p className={styles['bottom-text']}>
                 Уже есть аккаунт?{' '}
-                <Link className={styles['link']} to={'/login'}>
+                <Link className={styles['link']} to={'/login?form=auth'}>
                     Войти тут
                 </Link>
             </p>

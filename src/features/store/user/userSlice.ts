@@ -1,7 +1,8 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { user } from '../../../entities/user';
 
 interface userState {
-    user: null;
+    user: user | null;
     loggedIn: boolean;
 }
 
@@ -13,9 +14,14 @@ const initialState: userState = {
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        addUser: (state, action: PayloadAction<user>) => {
+            state.user = action.payload;
+            state.loggedIn = true;
+        },
+    },
 });
 
-// export const {} = userSlice.actions;
+export const { addUser } = userSlice.actions;
 
 export default userSlice.reducer;

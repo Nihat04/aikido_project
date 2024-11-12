@@ -2,7 +2,7 @@ import styles from '../styles/index.module.css';
 
 import { ThemeProvider } from '@mui/material';
 import { FieldValues, useForm } from 'react-hook-form';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { AuthInput, AuthPasswordInput, AuthButton, TopLogo } from '.';
 import { theme, handleErrors } from '../model';
@@ -17,13 +17,13 @@ export const AuthForm = () => {
         setError,
         formState: { errors },
     } = useForm();
-    const [, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
     const onSubmit = async (data: FieldValues) => {
         try {
             const coachID = await loginUser(data);
             if (coachID) {
                 localStorage.setItem('coachID', coachID);
-                setSearchParams({ form: 'reg' });
+                navigate('/');
             }
         } catch (error) {
             setError('global', {
@@ -73,7 +73,7 @@ export const AuthForm = () => {
             </form>
             <p className={styles['bottom-text']}>
                 Забыли пароль?{' '}
-                <Link className={styles['link']} to={'/register'}>
+                <Link className={styles['link']} to={'/login?form=reg'}>
                     Зарегестрироваться
                 </Link>
             </p>

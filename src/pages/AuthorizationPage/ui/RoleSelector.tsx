@@ -13,13 +13,23 @@ export const RoleSelector = () => {
             <p className={styles['text']}>Продложить, как:</p>
             <div className={styles['btns']}>
                 <AuthButton
-                    onClick={() => setSearchParams({ form: 'authStudent' })}
+                    onClick={() =>
+                        setSearchParams((params) => {
+                            params.set('form', 'authStudent');
+                            return params;
+                        })
+                    }
                     className={styles['btn']}
                 >
                     Обучающийся
                 </AuthButton>
                 <AuthButton
-                    onClick={() => setSearchParams({ form: 'auth' })}
+                    onClick={() =>
+                        setSearchParams((params) => {
+                            params.set('form', 'auth');
+                            return params;
+                        })
+                    }
                     className={styles['btn']}
                 >
                     Тренер

@@ -45,14 +45,19 @@ const Header = () => {
                     ))}
                 </nav>
                 <div className={styles['profile']}>
-                    <Link className={styles['profile__name']} to={'/login'}>
+                    <Link className={styles['profile__name']} to={'/account'}>
                         Мой профиль
                     </Link>
                     <img
                         className={styles['profile__img']}
                         src={avatarPlaceholder}
                     />
-                    <IconButton>
+                    <IconButton
+                        onClick={() => {
+                            localStorage.removeItem('coachID');
+                            location.reload();
+                        }}
+                    >
                         <LogoutIcon />
                     </IconButton>
                 </div>

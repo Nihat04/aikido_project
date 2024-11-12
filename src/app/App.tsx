@@ -2,9 +2,15 @@ import './styles/index.css';
 
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { getCoach } from '../entities/user';
+import { addUser } from '../features/store/user/userSlice';
+
 import MainPage from '../pages/MainPage/MainPage';
 import AuthorizationPage from '../pages/AuthorizationPage';
-import { useEffect } from 'react';
+import PersonalPage from '../pages/PersonalPage';
 
 type route = {
     path: string;
@@ -13,6 +19,7 @@ type route = {
 
 function App() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const publicRoutes: route[] = [
         { path: '/', element: <MainPage /> },
@@ -20,10 +27,14 @@ function App() {
         { path: '/groups', element: <MainPage /> },
         { path: '/visits', element: <MainPage /> },
         { path: '/login', element: <AuthorizationPage /> },
+        { path: '/account', element: <PersonalPage /> },
     ];
 
     useEffect(() => {
-        navigate('/login');
+        getCoach()
+            .then((user) => dispatch(addUser(user)))
+            .catch(() => navigate('/login'));
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
