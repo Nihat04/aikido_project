@@ -1,6 +1,18 @@
 import { createTheme } from '@mui/material';
 
-export const theme = createTheme({
+// each theme most likely must have commonSettings;
+const commonSettings = {
+    typography: {
+        fontFamily: ['Montserrat', 'sans-serif'].join(','),
+    },
+};
+
+export const defaultTheme = createTheme({
+    ...commonSettings,
+});
+
+export const authTheme = createTheme({
+    ...commonSettings,
     components: {
         MuiOutlinedInput: {
             styleOverrides: {
@@ -26,8 +38,5 @@ export const theme = createTheme({
                 },
             },
         },
-    },
-    typography: {
-        fontFamily: ['Montserrat', 'sans-serif'].join(','),
     },
 });

@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { ReactNode } from 'react';
 
-export const AuthButton = ({
+export const RedGradientButton = ({
     children,
     className,
     onClick,
@@ -19,12 +19,12 @@ export const AuthButton = ({
             type={type}
             onClick={onClick}
             sx={{
-                padding: '12px 0',
+                padding: '14px 20px',
                 textTransform: 'none',
                 fontSize: '16px',
                 fontWeight: '600',
                 background: 'linear-gradient(45deg, #a82222 0%, #fd6262 100%)',
-                borderRadius: '20px',
+                borderRadius: '15px',
             }}
         >
             {children}

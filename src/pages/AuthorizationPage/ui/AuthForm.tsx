@@ -4,13 +4,15 @@ import { ThemeProvider } from '@mui/material';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { AuthInput, AuthPasswordInput, AuthButton, TopLogo } from '.';
-import { theme, handleErrors } from '../model';
+import { AuthInput, AuthPasswordInput, TopLogo } from '.';
+import { handleErrors } from '../model';
+import { RedGradientButton } from '../../../shared/ui';
 
 import { MailIcon } from '../assets/components';
 import { loginCoach, loginStudent } from '../api/login';
 import { useAppDispatch } from '../../../features/store/hooks';
 import { setUser } from '../../../features/store/user/userSlice';
+import { authTheme } from '../../../features/mui';
 
 export const AuthForm = () => {
     const {
@@ -19,10 +21,12 @@ export const AuthForm = () => {
         setError,
         formState: { errors },
     } = useForm();
+
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const isCoach = searchParams.get('form') === 'authCoach';
+
     const onSubmit = async (data: FieldValues) => {
         try {
             if (isCoach) {
@@ -35,7 +39,7 @@ export const AuthForm = () => {
                 navigate('/');
             }
         } catch (error) {
-            setError('global', {
+            setError('login', {
                 type: 'server',
                 message: `${error}`,
             });
@@ -46,7 +50,7 @@ export const AuthForm = () => {
         <div className={styles['container']}>
             <TopLogo />
             <form className={styles['form']} onSubmit={handleSubmit(onSubmit)}>
-                <ThemeProvider theme={theme}>
+                <ThemeProvider theme={authTheme}>
                     <div className={styles['form__inps']}>
                         <AuthInput
                             label="Логин"
@@ -73,7 +77,7 @@ export const AuthForm = () => {
                             </p>
                         ))}
                     </div>
-                    <AuthButton type="submit">Войти</AuthButton>
+                    <RedGradientButton type="submit">Войти</RedGradientButton>
                 </ThemeProvider>
             </form>
             <p className={styles['bottom-text']}>Забыли пароль? </p>

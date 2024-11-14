@@ -1,16 +1,12 @@
 import './styles/index.css';
 
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-
-import { getCoach } from '../entities/user';
-import { addUser } from '../features/store/user/userSlice';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import MainPage from '../pages/MainPage/MainPage';
 import AuthorizationPage from '../pages/AuthorizationPage';
-import PersonalPage from '../pages/PersonalPage';
+import ProfilePage from '../pages/ProfilePage';
+import { ThemeProvider } from '@mui/material';
+import { defaultTheme } from '../features/mui';
 
 type route = {
     path: string;
@@ -18,38 +14,29 @@ type route = {
 };
 
 function App() {
-    // const navigate = useNavigate();
-    // const dispatch = useDispatch();
-
     const publicRoutes: route[] = [
         { path: '/', element: <MainPage /> },
         { path: '/schedule', element: <MainPage /> },
         { path: '/groups', element: <MainPage /> },
         { path: '/visits', element: <MainPage /> },
         { path: '/login', element: <AuthorizationPage /> },
-        { path: '/account', element: <PersonalPage /> },
+        { path: '/account', element: <ProfilePage /> },
     ];
-
-    // useEffect(() => {
-    //     getCoach()
-    //         .then((user) => dispatch(addUser(user)))
-    //         .catch(() => navigate('/login'));
-
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
 
     return (
         <>
-            <Routes>
-                {publicRoutes.map((route, index) => (
-                    <Route
-                        key={index}
-                        path={route.path}
-                        element={route.element}
-                    />
-                ))}
-                <Route path="*" element={<Navigate to={'/'} replace />} />
-            </Routes>
+            <ThemeProvider theme={defaultTheme}>
+                <Routes>
+                    {publicRoutes.map((route, index) => (
+                        <Route
+                            key={index}
+                            path={route.path}
+                            element={route.element}
+                        />
+                    ))}
+                    <Route path="*" element={<Navigate to={'/'} replace />} />
+                </Routes>
+            </ThemeProvider>
         </>
     );
 }

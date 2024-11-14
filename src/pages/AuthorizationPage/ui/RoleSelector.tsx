@@ -1,7 +1,8 @@
 import pageStyles from '../styles/index.module.css';
 import styles from '../styles/RoleSelector.module.css';
 
-import { TopLogo, AuthButton } from '.';
+import { TopLogo } from '.';
+import { RedGradientButton } from '../../../shared/ui';
 import { useSearchParams } from 'react-router-dom';
 
 export const RoleSelector = () => {
@@ -12,7 +13,7 @@ export const RoleSelector = () => {
             <TopLogo />
             <p className={styles['text']}>Продложить, как:</p>
             <div className={styles['btns']}>
-                <AuthButton
+                <RedGradientButton
                     onClick={() =>
                         setSearchParams((params) => {
                             params.set('form', 'authStudent');
@@ -22,8 +23,8 @@ export const RoleSelector = () => {
                     className={styles['btn']}
                 >
                     Обучающийся
-                </AuthButton>
-                <AuthButton
+                </RedGradientButton>
+                <RedGradientButton
                     onClick={() =>
                         setSearchParams((params) => {
                             params.set('form', 'authCoach');
@@ -33,7 +34,7 @@ export const RoleSelector = () => {
                     className={styles['btn']}
                 >
                     Тренер
-                </AuthButton>
+                </RedGradientButton>
             </div>
         </div>
     );

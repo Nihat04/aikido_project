@@ -9,6 +9,10 @@
     user-select: none;
 } */
 
+.main {
+    margin: 0;
+}
+
 .welcome__bg {
     position: absolute;
     width: 100%;

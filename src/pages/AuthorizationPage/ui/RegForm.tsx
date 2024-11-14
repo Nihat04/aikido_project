@@ -4,11 +4,13 @@ import { ThemeProvider } from '@emotion/react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { Link, useSearchParams } from 'react-router-dom';
 
-import { handleErrors, theme } from '../model';
-import { AuthButton, AuthInput, AuthPasswordInput, TopLogo } from '.';
+import { handleErrors } from '../model';
+import { AuthInput, AuthPasswordInput, TopLogo } from '.';
+import { RedGradientButton } from '../../../shared/ui';
 
 import { MailIcon, EditProfileIcon } from '../assets/components';
 import { registerUser } from '../api/signup';
+import { authTheme } from '../../../features/mui';
 
 export const RegForm = () => {
     const {
@@ -20,7 +22,7 @@ export const RegForm = () => {
     const [, setSearchParams] = useSearchParams();
     const onSubmit = async (data: FieldValues) => {
         if (data.password !== data.confirmPassword) {
-            setError('global', {
+            setError('password', {
                 type: 'pattern',
                 message: 'Пароли не совпадают',
             });
@@ -35,7 +37,7 @@ export const RegForm = () => {
                 });
             }
         } catch {
-            setError('global', {
+            setError('login', {
                 type: 'server',
                 message: 'Ошибка запроса на бэк',
             });
@@ -46,7 +48,7 @@ export const RegForm = () => {
         <div className={styles['container']}>
             <TopLogo />
             <form className={styles['form']} onSubmit={handleSubmit(onSubmit)}>
-                <ThemeProvider theme={theme}>
+                <ThemeProvider theme={authTheme}>
                     <div className={styles['form__inps']}>
                         <AuthInput
                             label="Имя"
@@ -97,7 +99,9 @@ export const RegForm = () => {
                             </p>
                         ))}
                     </div>
-                    <AuthButton type="submit">Создать аккаунт</AuthButton>
+                    <RedGradientButton type="submit">
+                        Создать аккаунт
+                    </RedGradientButton>
                 </ThemeProvider>
             </form>
             <p className={styles['bottom-text']}>
