@@ -8,11 +8,11 @@ const AuthorizationPage = () => {
         const formType = searchParams.get('form');
 
         switch (formType) {
-            case 'auth':
-                return <AuthForm />;
-            case 'reg':
-                return <RegForm />;
             case 'authStudent':
+                return <AuthForm />;
+            case 'regStudent':
+                return <RegForm />;
+            case 'authCoach':
                 return <AuthForm />;
             default:
                 return <RoleSelector />;

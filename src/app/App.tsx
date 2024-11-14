@@ -18,8 +18,8 @@ type route = {
 };
 
 function App() {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    // const navigate = useNavigate();
+    // const dispatch = useDispatch();
 
     const publicRoutes: route[] = [
         { path: '/', element: <MainPage /> },
@@ -30,13 +30,13 @@ function App() {
         { path: '/account', element: <PersonalPage /> },
     ];
 
-    useEffect(() => {
-        getCoach()
-            .then((user) => dispatch(addUser(user)))
-            .catch(() => navigate('/login'));
+    // useEffect(() => {
+    //     getCoach()
+    //         .then((user) => dispatch(addUser(user)))
+    //         .catch(() => navigate('/login'));
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
     return (
         <>

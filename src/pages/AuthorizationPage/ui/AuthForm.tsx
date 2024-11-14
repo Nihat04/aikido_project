@@ -2,13 +2,15 @@ import styles from '../styles/index.module.css';
 
 import { ThemeProvider } from '@mui/material';
 import { FieldValues, useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { AuthInput, AuthPasswordInput, AuthButton, TopLogo } from '.';
 import { theme, handleErrors } from '../model';
 
 import { MailIcon } from '../assets/components';
-import { loginUser } from '../api/login';
+import { loginCoach, loginStudent } from '../api/login';
+import { useAppDispatch } from '../../../features/store/hooks';
+import { setUser } from '../../../features/store/user/userSlice';
 
 export const AuthForm = () => {
     const {
@@ -17,12 +19,19 @@ export const AuthForm = () => {
         setError,
         formState: { errors },
     } = useForm();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const isCoach = searchParams.get('form') === 'authCoach';
     const onSubmit = async (data: FieldValues) => {
         try {
-            const coachID = await loginUser(data);
-            if (coachID) {
-                localStorage.setItem('coachID', coachID);
+            if (isCoach) {
+                const coachID = await loginCoach(data);
+                dispatch(setUser({ id: coachID, role: 'coach' }));
+                navigate('/');
+            } else {
+                const { id, fullName } = await loginStudent(data);
+                dispatch(setUser({ id: id, role: 'student', fullName }));
                 navigate('/');
             }
         } catch (error) {
@@ -40,16 +49,12 @@ export const AuthForm = () => {
                 <ThemeProvider theme={theme}>
                     <div className={styles['form__inps']}>
                         <AuthInput
-                            label="Почта"
+                            label="Логин"
                             type="text"
                             endAdorment={<MailIcon />}
-                            formRegister={register('email', {
+                            formRegister={register('login', {
                                 required:
-                                    'Поле "Почта" обязательна к заполнению',
-                                pattern: {
-                                    value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]/,
-                                    message: 'Формат почты неправильный',
-                                },
+                                    'Поле "Логин" обязательна к заполнению',
                             })}
                         />
                         <AuthPasswordInput
@@ -71,12 +76,7 @@ export const AuthForm = () => {
                     <AuthButton type="submit">Войти</AuthButton>
                 </ThemeProvider>
             </form>
-            <p className={styles['bottom-text']}>
-                Забыли пароль?{' '}
-                <Link className={styles['link']} to={'/login?form=reg'}>
-                    Зарегестрироваться
-                </Link>
-            </p>
+            <p className={styles['bottom-text']}>Забыли пароль? </p>
         </div>
     );
 };
