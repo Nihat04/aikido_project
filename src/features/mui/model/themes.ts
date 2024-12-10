@@ -9,6 +9,19 @@ const commonSettings = {
 
 export const defaultTheme = createTheme({
     ...commonSettings,
+    components: {
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '15px',
+                    fontSize: '15px',
+                    '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#000000',
+                    },
+                },
+            },
+        },
+    },
 });
 
 export const authTheme = createTheme({

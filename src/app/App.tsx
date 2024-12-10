@@ -7,27 +7,42 @@ import AuthorizationPage from '../pages/AuthorizationPage';
 import ProfilePage from '../pages/ProfilePage';
 import { ThemeProvider } from '@mui/material';
 import { defaultTheme } from '../features/mui';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { logUser } from '../features/store/user/userSlice';
+import StudentsPage from '../pages/StudentsPage';
+import GroupsPage from '../pages/GroupsPage';
 
 type route = {
     path: string;
     element: JSX.Element;
 };
 
+const PUBLIC_ROUTES: route[] = [
+    { path: '/', element: <MainPage /> },
+    { path: '/schedule', element: <MainPage /> },
+    { path: '/groups', element: <GroupsPage /> },
+    { path: '/visits', element: <MainPage /> },
+    { path: '/login', element: <AuthorizationPage /> },
+    { path: '/account', element: <ProfilePage /> },
+    { path: '/students', element: <StudentsPage /> },
+];
+
 function App() {
-    const publicRoutes: route[] = [
-        { path: '/', element: <MainPage /> },
-        { path: '/schedule', element: <MainPage /> },
-        { path: '/groups', element: <MainPage /> },
-        { path: '/visits', element: <MainPage /> },
-        { path: '/login', element: <AuthorizationPage /> },
-        { path: '/account', element: <ProfilePage /> },
-    ];
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const userString = localStorage.getItem('user');
+        if (userString) {
+            dispatch(logUser(JSON.parse(userString)));
+        }
+    }, []);
 
     return (
         <>
             <ThemeProvider theme={defaultTheme}>
                 <Routes>
-                    {publicRoutes.map((route, index) => (
+                    {PUBLIC_ROUTES.map((route, index) => (
                         <Route
                             key={index}
                             path={route.path}

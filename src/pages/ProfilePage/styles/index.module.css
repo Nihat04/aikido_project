@@ -38,6 +38,7 @@
 
 .profile__name {
     display: flex;
+    margin-bottom: 60px;
     justify-content: center;
     align-items: center;
     gap: 25px;
@@ -52,4 +53,38 @@
 .profile__fullname {
     font-size: 30px;
     font-weight: 500;
+}
+
+.profile__data__section:not(:last-child) {
+    margin-bottom: 30px;
+}
+
+.profile__data_section__header {
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.profile__data__section__form {
+    display: flex;
+    padding: 20px;
+    max-width: fit-content;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 20px;
+    gap: 30px;
+}
+
+.profile__data__header {
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.profile__data__input {
+    margin: 0;
+    padding: 9px 15px;
+    width: fit-content;
+    border: 1px solid #000;
+    border-radius: 15px;
 }

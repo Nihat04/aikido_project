@@ -1,0 +1,41 @@
+.drop-menu {
+    margin: 0 auto;
+    max-width: 1124px;
+}
+
+.group {
+    display: flex;
+    padding: 20px 30px;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.btns {
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.list-wrapper {
+    width: 50%;
+}
+
+.item {
+    display: flex;
+    padding: 9px 17px;
+    justify-content: space-between;
+    background: #E2E2E2;
+}
+
+.item:nth-child(2n) {
+    background: #FFFFFF;
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

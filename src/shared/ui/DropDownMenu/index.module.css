@@ -1,0 +1,17 @@
+.preview {
+    padding: 10px 0;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.menu {
+    display: none;
+    margin-top: 10px;
+}
+
+.open {
+    display: block;
+}

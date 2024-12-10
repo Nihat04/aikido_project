@@ -1,0 +1,29 @@
+.modal {
+    position: absolute;
+    padding: 12px 15px;
+    top: 50%;
+    left: 50%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0px 20px rgba(0, 0, 0, 0.25);
+    transform: translate(-50%, -50%);
+    z-index: 900;
+}
+
+.information * {
+    margin-bottom: 14px;
+}
+
+.btns {
+    display: flex;
+    gap: 31px;
+}
+
+.btn {
+    padding: 10px 30px;
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 12px;
+    font-weight: 700;
+    background-color: #E0DBDB;
+    border-radius: 8px;
+}

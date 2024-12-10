@@ -11,7 +11,7 @@ import { RedGradientButton } from '../../../shared/ui';
 import { MailIcon } from '../assets/components';
 import { loginCoach, loginStudent } from '../api/login';
 import { useAppDispatch } from '../../../features/store/hooks';
-import { setUser } from '../../../features/store/user/userSlice';
+import { authUser } from '../../../features/store/user/userSlice';
 import { authTheme } from '../../../features/mui';
 
 export const AuthForm = () => {
@@ -31,11 +31,11 @@ export const AuthForm = () => {
         try {
             if (isCoach) {
                 const coachID = await loginCoach(data);
-                dispatch(setUser({ id: coachID, role: 'coach' }));
+                dispatch(authUser({ id: coachID, role: 'coach' }));
                 navigate('/');
             } else {
                 const { id, fullName } = await loginStudent(data);
-                dispatch(setUser({ id: id, role: 'student', fullName }));
+                dispatch(authUser({ id: id, role: 'student', fullName }));
                 navigate('/');
             }
         } catch (error) {

@@ -1,17 +1,36 @@
-import apiClient from '../../../shared/apiClient';
-import { user } from './types';
+import apiClient from '@/shared/api/apiClient';
+import { Student } from '../model/types/student';
 
-export async function getCoach(): Promise<user> {
-    const coachId = localStorage.getItem('coachID');
-
-    if (!coachId) throw new Error('unauthorized');
-
-    const res = await apiClient.get('/Coach/GetCoaches');
+export async function getStudents(): Promise<Student[]> {
+    const res = await apiClient.get('/Sportsmen/GetSportsmens');
     const data = await res.data;
 
-    const coach = data.find((el: user) => el.id === coachId);
+    return data;
+}
 
-    if (!coach) throw new Error('unauthorized');
+export async function getStudentLoginData(
+    name: string
+): Promise<{ login: string; password: string }> {
+    return await (
+        await apiClient.post('/Sportsmen/MakeDataEntry', name)
+    ).data;
+}
 
-    return coach;
+export async function createNewStudent(name: string) {
+    const logData = await getStudentLoginData(name);
+
+    await apiClient.post('/Sportsmen/RegisterSportsmen', {
+        fullName: name,
+        userName: logData.login,
+        Password: logData.password,
+    });
+
+    return logData;
+}
+
+export async function deleteStudent(id: string): Promise<number> {
+    const res = await apiClient.delete(`/Sportsmen/DeleteSportsmens?id=${id}`);
+    const status = await res.status;
+
+    return status;
 }

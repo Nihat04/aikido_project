@@ -1,5 +1,5 @@
 import { FieldValues } from 'react-hook-form';
-import apiClient from '../../../shared/apiClient';
+import apiClient from '../../../shared/api/apiClient';
 
 export const loginCoach = async (data: FieldValues) => {
     const response = await apiClient.post('/Coach/LoginCoach', {

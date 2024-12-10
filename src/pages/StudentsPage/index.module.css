@@ -1,0 +1,39 @@
+.form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.island {
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.input-wrapper {
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.list {
+    list-style: none;
+}
+
+.list-item {
+    display: flex;
+    padding: 10px 17px;
+    gap: 10px;
+}
+
+.limit-section {
+    max-width: 661px;
+}
+
+.centered {
+    margin: 0 auto;
+}
+
+.finder {
+    margin-bottom: 60px;
+    width: 100%;
+}

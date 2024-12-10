@@ -1,32 +1,32 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { User } from '../../../entities/user';
 
-interface User {
-    id: string | null;
-    role: string | null;
-    fullName?: string | null;
-}
-
-const initialState: User = {
-    id: null,
-    fullName: null,
-    role: null,
+type State = {
+    user: User | null;
+    logedIn: boolean;
 };
+
+const initialState: State = {
+    user: null,
+    logedIn: false,
+};
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setUser: (state, action) => {
-            state.id = action.payload.id;
-            state.role = action.payload.role;
-            state.fullName = action.payload.fullName;
-            if (action.payload.role === 'coach') {
-                localStorage.setItem('coachID', action.payload.id);
-            } else if (action.payload.role === 'student') {
-                localStorage.setItem('studentID', action.payload.id);
-            }
+        logUser: (state, action: PayloadAction<User>) => {
+            state.user = action.payload;
+            state.logedIn = true;
+        },
+        authUser: (state, action: PayloadAction<User>) => {
+            state.user = action.payload;
+            state.logedIn = true;
+
+            localStorage.setItem('user', JSON.stringify(action.payload));
         },
     },
 });
 
-export const { setUser } = userSlice.actions;
+export const { logUser, authUser } = userSlice.actions;
 export default userSlice.reducer;
