@@ -29,7 +29,7 @@ export async function createNewStudent(name: string) {
 }
 
 export async function deleteStudent(id: string): Promise<number> {
-    const res = await apiClient.delete(`/Sportsmen/DeleteSportsmens?id=${id}`);
+    const res = await apiClient.delete(`/Sportsmen/DeleteSportsmen?id=${id}`);
     const status = await res.status;
 
     return status;

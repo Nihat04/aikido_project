@@ -1,8 +1,7 @@
 import styles from './index.module.css';
 
+import Modal from '@mui/material/Modal';
 import { IconButton } from '@mui/material';
-import Modal from '@mui/joy/Modal';
-import ModalClose from '@mui/joy/ModalClose';
 import { FieldValues, useForm } from 'react-hook-form';
 
 import { RedGradientButton } from '../../shared/ui';
@@ -140,90 +139,111 @@ const StudentsPage = () => {
                         </RedGradientButton>
                     </div>
                 </section>
-                <Modal open={createModalOpen} className={styles['modal']}>
+            </main>
+            <Modal
+                onClose={() => setCreateModalOpen(false)}
+                open={createModalOpen}
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <div
+                    className={classNames(
+                        styles['modal-content'],
+                        styles['modal-big']
+                    )}
+                >
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className={styles['form']}
                     >
-                        <input
-                            type="text"
-                            placeholder="ФИО"
-                            {...register('name', {
-                                required:
-                                    'Поле "Логин" обязательна к заполнению',
-                            })}
-                        />
-                        <RedGradientButton
-                            onClick={() => setCreateModalOpen(false)}
-                        >
-                            Отмена
-                        </RedGradientButton>
-                        <RedGradientButton type="submit">
-                            Создать
-                        </RedGradientButton>
-                    </form>
-                </Modal>
-                <Modal
-                    aria-labelledby="modal-title"
-                    aria-describedby="modal-desc"
-                    onClose={() =>
-                        setDeleteModal({ ...deleteModal, state: false })
-                    }
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                    open={deleteModal.state}
-                >
-                    <>
-                        <ModalClose />
-                        <form
-                            onSubmit={handleSubmit(onSubmit)}
-                            className={styles['form']}
-                        >
-                            <input
-                                type="text"
+                        <div>
+                            <p>ФИО</p>
+                            <FormInput
+                                width="402px"
                                 placeholder="ФИО"
+                                type="text"
                                 {...register('name', {
                                     required:
                                         'Поле "Логин" обязательна к заполнению',
                                 })}
                             />
+                        </div>
+                        <div className={styles['form-btns']}>
                             <RedGradientButton
-                                onClick={() =>
-                                    setDeleteModal({
-                                        ...deleteModal,
-                                        state: false,
-                                    })
-                                }
+                                onClick={() => setCreateModalOpen(false)}
                             >
-                                Нет
+                                Отмена
                             </RedGradientButton>
-                            <RedGradientButton
-                                onClick={() => {
-                                    if (deleteModal.studentId) {
-                                        setLoader(true);
-                                        deleteStudent(deleteModal.studentId)
-                                            .then(() =>
-                                                setStudentsList(
-                                                    studentsList.filter(
-                                                        (st) =>
-                                                            st.id !==
-                                                            deleteModal.studentId
-                                                    )
+                            <RedGradientButton type="submit">
+                                Создать
+                            </RedGradientButton>
+                        </div>
+                    </form>
+                </div>
+            </Modal>
+            <Modal
+                onClose={() => setDeleteModal({ ...deleteModal, state: false })}
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+                open={deleteModal.state}
+            >
+                <div
+                    className={classNames(
+                        styles['modal-content'],
+                        styles['modal-sm']
+                    )}
+                >
+                    <p className={styles['modal-title']}>
+                        Удалить этого ученика?
+                    </p>
+                    <div className={styles['form-btns']}>
+                        <RedGradientButton
+                            onClick={() =>
+                                setDeleteModal({
+                                    ...deleteModal,
+                                    state: false,
+                                })
+                            }
+                        >
+                            Нет
+                        </RedGradientButton>
+                        <RedGradientButton
+                            onClick={() => {
+                                if (deleteModal.studentId) {
+                                    setLoader(true);
+                                    deleteStudent(deleteModal.studentId)
+                                        .then(() =>
+                                            setStudentsList(
+                                                studentsList.filter(
+                                                    (st) =>
+                                                        st.id !==
+                                                        deleteModal.studentId
                                                 )
                                             )
-                                            .then(() => setLoader(false));
-                                    }
-                                }}
-                            >
-                                Да
-                            </RedGradientButton>
-                        </form>
-                    </>
-                </Modal>
-            </main>
+                                        )
+                                        .then(
+                                            () => (
+                                                setLoader(false),
+                                                setDeleteModal({
+                                                    ...deleteModal,
+                                                    state: false,
+                                                })
+                                            )
+                                        );
+                                }
+                            }}
+                        >
+                            Да
+                        </RedGradientButton>
+                    </div>
+                </div>
+            </Modal>
             {loader && <Loader />}
         </>
     );

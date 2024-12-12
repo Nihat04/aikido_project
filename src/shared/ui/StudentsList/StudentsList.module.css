@@ -1,0 +1,15 @@
+.list-wrapper {
+    width: 50%;
+}
+
+.item {
+    display: flex;
+    padding: 9px 17px;
+    justify-content: space-between;
+    align-items: center;
+    background: #E2E2E2;
+}
+
+.item:nth-child(2n) {
+    background: #FFFFFF;
+}
