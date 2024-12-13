@@ -68,3 +68,18 @@
     border: 2px solid #fff;
     border-radius: 100%;
 }
+
+@media screen and (max-width: 1650px) {
+    .header {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .nav__link {
+        font-size: 12px;
+    }
+
+    .profile__name {
+        font-size: 12px;
+    }
+}

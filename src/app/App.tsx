@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { logUser } from '../features/store/user/userSlice';
 import StudentsPage from '../pages/StudentsPage';
 import GroupsPage from '../pages/GroupsPage';
+import AdminSchedulePage from '@/pages/AdminSchedulePage/AdminSchedulePage';
 
 type route = {
     path: string;
@@ -21,6 +22,7 @@ type route = {
 const PUBLIC_ROUTES: route[] = [
     { path: '/', element: <MainPage /> },
     { path: '/schedule', element: <MainPage /> },
+    { path: '/manageSchedule', element: <AdminSchedulePage /> },
     { path: '/groups', element: <GroupsPage /> },
     { path: '/visits', element: <MainPage /> },
     { path: '/login', element: <AuthorizationPage /> },

@@ -19,7 +19,7 @@ type navLink = {
 const COACH_LINKS: navLink[] = [
     { label: 'группы', path: '/groups' },
     { label: 'ученики', path: '/students' },
-    { label: 'создать расписание', path: '/createShedudle' },
+    { label: 'создать расписание', path: '/manageSchedule' },
     { label: 'отметить посещение', path: '/schedule' },
     { label: 'оплата занятий', path: '/pay' },
 ];
@@ -61,7 +61,7 @@ const Header = () => {
                 <div className={styles['logo']}>
                     <Link className={styles['logo']} to={'/'}>
                         <img className={styles['logo__img']} src={logo} />
-                        <p className={styles['logo__text']}>Dolma Dojo</p>
+                        <p className={styles['logo__text']}>Dolma&nbsp;Dojo</p>
                     </Link>
                 </div>
                 <nav className={styles['nav']}>{renderLinks()}</nav>
