@@ -7,7 +7,7 @@ import { Box, Modal } from '@mui/material';
 import { FieldValues, useForm } from 'react-hook-form';
 
 import { RootState } from '@/features/store/store';
-import { getGroups, Group } from '@/entities/group/index';
+import { createGroup, getGroups, Group } from '@/entities/group/index';
 
 import Header from '@/widgets/Header/Header';
 import GroupItem from '@/widgets/Group';
@@ -31,7 +31,12 @@ const GroupsPage = () => {
     }, [user]);
 
     const onSubmit = (handleSubmit: FieldValues) => {
-        console.log(handleSubmit);
+        if (user?.id) {
+            createGroup(user?.id, handleSubmit.groupName).then(() =>
+                getGroups(user.id).then((res) => setGroups(res))
+            );
+            setCerateGroupModal(false);
+        }
     };
 
     return (

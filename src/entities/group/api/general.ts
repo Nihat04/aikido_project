@@ -21,3 +21,22 @@ export async function addStudent(groupId: string, studentsIds: string[]) {
 
     return data;
 }
+
+export async function createGroup(coachId: string, name: string) {
+    const res = await apiClient.post('/api/Group/CreateGroup', {
+        coachId,
+        name,
+    });
+
+    const data = res.data;
+
+    return data;
+}
+
+export async function deleteGroup(groupId: string) {
+    const res = await apiClient.delete(`/api/Group/DeleteGroup?id=${groupId}`);
+
+    const data = res.data;
+
+    return data;
+}

@@ -14,24 +14,24 @@ export const RoleSelector = () => {
             <p className={styles['text']}>Продложить, как:</p>
             <div className={styles['btns']}>
                 <RedGradientButton
+                    sx={{ width: '100%' }}
                     onClick={() =>
                         setSearchParams((params) => {
                             params.set('form', 'authStudent');
                             return params;
                         })
                     }
-                    className={styles['btn']}
                 >
                     Обучающийся
                 </RedGradientButton>
                 <RedGradientButton
+                    sx={{ width: '100%' }}
                     onClick={() =>
                         setSearchParams((params) => {
                             params.set('form', 'authCoach');
                             return params;
                         })
                     }
-                    className={styles['btn']}
                 >
                     Тренер
                 </RedGradientButton>

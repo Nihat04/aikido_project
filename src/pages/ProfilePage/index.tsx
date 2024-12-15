@@ -22,6 +22,12 @@ const ProfilePage = () => {
                                     <li className={styles['nav__item']}>
                                         <RedGradientButton
                                             className={styles['nav__item__btn']}
+                                            sx={{
+                                                fontSize: '20px',
+                                                lineHeight: '120%',
+                                                letterSpacing: '0.01em',
+                                                color: '#fff',
+                                            }}
                                         >
                                             Общие данные
                                         </RedGradientButton>

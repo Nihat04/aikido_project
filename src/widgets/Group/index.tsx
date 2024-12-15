@@ -6,7 +6,7 @@ import { DropDownMenu } from '../../shared/ui/DropDownMenu';
 import { RedGradientButton } from '../../shared/ui';
 import { GreyButton } from '../../shared/ui/GreyButton';
 import { useEffect, useMemo, useState } from 'react';
-import { addStudent, Group as GroupType } from '@/entities/group';
+import { addStudent, deleteGroup, Group as GroupType } from '@/entities/group';
 import { getStudents, Student } from '@/entities/user';
 import classNames from 'classnames';
 import { FormInput } from '@/shared/ui/Inputs';
@@ -21,16 +21,27 @@ const Group = ({ group }: { group: GroupType }) => {
     } = useForm();
 
     const [students, setStudents] = useState<Student[]>([]);
-    const freeStudents = useMemo<Student[]>(
-        () =>
-            students.filter(
-                (student) =>
-                    !group.sportsmens
-                        .map((groupStudent) => groupStudent.id)
-                        .includes(student.id)
-            ),
-        [students]
-    );
+    const [search, setSearch] = useState<string>('');
+    const [deleteModal, setDeleteModal] = useState<{
+        state: boolean;
+        groupId?: string;
+    }>({ state: false });
+    const freeStudents = useMemo<Student[]>(() => {
+        let filteredStudents = students.filter(
+            (student) =>
+                !group.sportsmens
+                    .map((groupStudent) => groupStudent.id)
+                    .includes(student.id)
+        );
+
+        if (search) {
+            filteredStudents = filteredStudents.filter((student) =>
+                student.fullName.includes(search)
+            );
+        }
+
+        return filteredStudents;
+    }, [students, search]);
 
     const [addStudentModalOpen, setAddStudentModalOpen] =
         useState<boolean>(false);
@@ -60,7 +71,16 @@ const Group = ({ group }: { group: GroupType }) => {
                         >
                             Добавить ученика
                         </GreyButton>
-                        <RedGradientButton>Удалить Группу</RedGradientButton>
+                        <RedGradientButton
+                            onClick={() =>
+                                setDeleteModal({
+                                    state: true,
+                                    groupId: group.id,
+                                })
+                            }
+                        >
+                            Удалить Группу
+                        </RedGradientButton>
                     </div>
                     <StudentsList list={group.sportsmens} />
                 </div>
@@ -88,6 +108,7 @@ const Group = ({ group }: { group: GroupType }) => {
                             width="402px"
                             placeholder="Поиск"
                             type="search"
+                            onChange={(e) => setSearch(e.target.value)}
                         />
                         <StudentsListInput
                             list={freeStudents}
@@ -104,6 +125,47 @@ const Group = ({ group }: { group: GroupType }) => {
                             </RedGradientButton>
                         </div>
                     </form>
+                </div>
+            </Modal>
+            <Modal
+                onClose={() => setDeleteModal({ ...deleteModal, state: false })}
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+                open={deleteModal.state}
+            >
+                <div
+                    className={classNames(
+                        styles['modal-content'],
+                        styles['modal-sm']
+                    )}
+                >
+                    <p className={styles['modal-title']}>Удалить группу?</p>
+                    <div className={styles['form-btns']}>
+                        <RedGradientButton
+                            onClick={() =>
+                                setDeleteModal({
+                                    ...deleteModal,
+                                    state: false,
+                                })
+                            }
+                        >
+                            Нет
+                        </RedGradientButton>
+                        <RedGradientButton
+                            onClick={() => {
+                                if (deleteModal.groupId) {
+                                    deleteGroup(deleteModal.groupId).then(() =>
+                                        location.reload()
+                                    );
+                                }
+                            }}
+                        >
+                            Да
+                        </RedGradientButton>
+                    </div>
                 </div>
             </Modal>
         </div>

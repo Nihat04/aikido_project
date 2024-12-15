@@ -1,97 +1,168 @@
+import { Typography, Stack, Paper, SxProps, IconButton } from '@mui/material';
+
+import { SheduleWindow } from '../ScheduleWindow/ScheduleWindow';
+
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {
-    Grid2 as Grid,
-    Box,
-    Typography,
-    Button,
-    createTheme,
-    ThemeProvider,
-} from '@mui/material';
-import React from 'react';
+    getCurrentWeekDays,
+    getNextWeekDays,
+    getPreviousWeekDays,
+} from '@/features/dateController';
+import React, { useMemo, useState } from 'react';
+import { Lesson } from '@/entities/lesson';
 
-const gridTheme = createTheme({
-    components: {
-        MuiGrid2: {
-            styleOverrides: {
-                root: {
-                    gridTemplateRows:
-                        '100px 100px 100px 100px 100px 100px 100px 100px',
-                },
-            },
-        },
-    },
-});
+const weekDays = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
 
-export const ScheduleTable = () => {
-    const timeSlots = [
-        '8:00-10:00',
-        '10:00-12:00',
-        '12:00-14:00',
-        '14:00-16:00',
-        '16:00-18:00',
-        '20:00-22:00',
-    ];
-    const days = [
-        'ПН 28.10',
-        'ВТ 29.10',
-        'СР 30.10',
-        'ЧТ 31.10',
-        'ПТ 2.11',
-        'СБ 3.11',
-        'ВС 4.11',
-    ];
+const timeSlots = [
+    new Date(0, 0, 0, 10, 0),
+    new Date(0, 0, 0, 12, 0),
+    new Date(0, 0, 0, 14, 0),
+    new Date(0, 0, 0, 16, 0),
+];
+
+const formatTime = (
+    date: Date,
+    options?: Partial<{
+        addHours: number;
+        addMinutes: number;
+    }>
+) => {
+    const { addHours = 0, addMinutes = 0 } = options || {}; // Default to empty object if options is undefined
+    const hours = String(date.getHours() + addHours).padStart(2, '0');
+    const minutes = String(date.getMinutes() + addMinutes).padStart(2, '0');
+    return `${hours}:${minutes}`;
+};
+
+const dynamicElValue = 'calc(100% / 8)';
+
+const containerStyles: SxProps = {
+    width: '100%',
+    alignItems: 'center',
+};
+
+const firstLineStyles: SxProps = {
+    width: '100%',
+};
+
+const headerStyle: SxProps = {
+    width: dynamicElValue,
+    height: '50px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    background: 'none',
+};
+
+const rowHeaderStyles: SxProps = {
+    display: 'flex',
+    width: dynamicElValue,
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'none',
+};
+
+const btnStyle: SxProps = {
+    border: '1px solid #000',
+};
+
+export const ScheduleTable: React.FC<{ lessons: Lesson[] }> = ({ lessons }) => {
+    const [currentWeek, setCurrentWeek] = useState(getCurrentWeekDays());
+
+    const tableLessons = useMemo(() => {
+        const lsns: { [key: number]: JSX.Element } = {};
+        timeSlots.map((slot) => {
+            const endTime = new Date(slot.getTime());
+            endTime.setHours(endTime.getHours() + 2);
+            currentWeek.map((day, colIndex) => {
+                for (const lesson of lessons) {
+                    const date = new Date(lesson.date);
+                    const time = new Date('1899-12-31T' + lesson.time);
+
+                    if (date.getDay() === day.getDay()) {
+                        if (time <= slot && endTime > slot) {
+                            const overallDateMillis =
+                                slot.getTime() + day.getTime();
+
+                            lsns[overallDateMillis] = (
+                                <SheduleWindow
+                                    state="filled"
+                                    eventName={lesson.groupName}
+                                    key={colIndex}
+                                />
+                            );
+                        }
+                    }
+                }
+            });
+        });
+
+        return lsns;
+    }, [lessons, currentWeek]);
 
     return (
-        <ThemeProvider theme={gridTheme}>
-            <Grid container spacing={2}>
-                {/* Header Row */}
-                <Grid size={{ xs: 2 }}>
-                    <Box />
-                </Grid>
-                {days.map((day, index) => (
-                    <Grid size={{ xs: 2 }} key={index}>
-                        <Typography variant="h6" align="center">
-                            {day}
-                        </Typography>
-                    </Grid>
+        <Stack spacing={2} sx={containerStyles}>
+            <Stack direction="row" spacing={2} sx={firstLineStyles}>
+                <Paper
+                    elevation={1}
+                    sx={{
+                        width: dynamicElValue,
+                        height: '50px',
+                        visibility: 'hidden',
+                    }}
+                />
+                {currentWeek.map((day, index) => (
+                    <Paper key={index} elevation={0} sx={headerStyle}>
+                        {index === 0 && (
+                            <IconButton
+                                sx={btnStyle}
+                                onClick={() =>
+                                    setCurrentWeek(
+                                        getPreviousWeekDays(currentWeek[0])
+                                    )
+                                }
+                            >
+                                <ArrowBackIcon sx={{ color: '#000' }} />
+                            </IconButton>
+                        )}
+                        <Typography>{`${weekDays[day.getDay()]} ${day.getDate()}.${day.getMonth() + 1}`}</Typography>
+                        {index === currentWeek.length - 1 && (
+                            <IconButton
+                                sx={btnStyle}
+                                onClick={() =>
+                                    setCurrentWeek(
+                                        getNextWeekDays(currentWeek[0])
+                                    )
+                                }
+                            >
+                                <ArrowForwardIcon sx={{ color: '#000' }} />
+                            </IconButton>
+                        )}
+                    </Paper>
                 ))}
+            </Stack>
 
-                {/* Time Slot Rows */}
-                {timeSlots.map((slot, rowIndex) => (
-                    <React.Fragment key={rowIndex}>
-                        <Grid size={{ xs: 2 }}>
-                            <Typography variant="body1" align="center">
-                                {slot}
-                            </Typography>
-                        </Grid>
-                        {days.map((_, colIndex) => (
-                            <Grid size={{ xs: 2 }} key={colIndex}>
-                                <Box
-                                    sx={{
-                                        border: '1px solid #ccc',
-                                        height: '100px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        backgroundColor: '#f5f5f5',
-                                    }}
-                                >
-                                    {/* Add content or a button to add content */}
-                                    {rowIndex === 0 && colIndex === 0 && (
-                                        <Button variant="outlined">+</Button>
-                                    )}
-                                    {/* Example content */}
-                                    {rowIndex === 1 && colIndex === 1 && (
-                                        <Typography>Группа AT-05</Typography>
-                                    )}
-                                    {rowIndex === 2 && colIndex === 1 && (
-                                        <Typography>Группа AT-06</Typography>
-                                    )}
-                                </Box>
-                            </Grid>
-                        ))}
-                    </React.Fragment>
-                ))}
-            </Grid>
-        </ThemeProvider>
+            {/* Time Slot Rows */}
+            {timeSlots.map((slot, rowIndex) => (
+                <Stack
+                    key={rowIndex}
+                    direction="row"
+                    spacing={2}
+                    sx={{ width: '100%' }}
+                >
+                    <Paper elevation={0} sx={rowHeaderStyles}>
+                        <Typography variant="body1">
+                            {`${formatTime(slot)}-${formatTime(slot, { addHours: 2 })}`}
+                        </Typography>
+                    </Paper>
+                    {currentWeek.map(
+                        (day, colIndex) =>
+                            tableLessons[day.getTime() + slot.getTime()] || (
+                                <SheduleWindow state="empty" key={colIndex} />
+                            )
+                    )}
+                </Stack>
+            ))}
+        </Stack>
     );
 };

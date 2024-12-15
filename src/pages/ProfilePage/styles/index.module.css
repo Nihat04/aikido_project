@@ -27,13 +27,6 @@
     flex-direction: column;
 }
 
-.nav__item__btn {
-    font-size: 20px !important;
-    line-height: 120%;
-    letter-spacing: 0.01em;
-    color: #fff;
-}
-
 /* profile */
 
 .profile__name {

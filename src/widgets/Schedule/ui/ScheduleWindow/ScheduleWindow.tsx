@@ -1,7 +1,5 @@
-import classNames from 'classnames';
-import styles from './ScheduleWindow.module.css';
-
 import React from 'react';
+import { Paper, Button, Typography } from '@mui/material';
 
 type SheduleWindowProps = {
     eventName?: string;
@@ -15,14 +13,39 @@ export const SheduleWindow: React.FC<SheduleWindowProps> = ({
     state,
 }) => {
     return (
-        <div
-            className={classNames(styles['shedule-window'], {
-                [styles['state-empty']]: state === 'empty',
-                [styles['state-filles']]: state === 'filled',
-            })}
-            onClick={onClick}
+        <Paper
+            elevation={0}
+            sx={{
+                width: 'calc(100% / 8)',
+                height: '100px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#f5f5f5',
+            }}
         >
-            {eventName}
-        </div>
+            {/* Content goes here */}
+            {state === 'empty' && (
+                <Button
+                    onClick={onClick}
+                    variant="outlined"
+                    sx={{
+                        aspectRatio: '1',
+                        color: '#000',
+                        fontSize: '30px',
+                        border: '2px solid #000',
+                        borderRadius: '100%',
+                        opacity: '0',
+                        ':hover': {
+                            opacity: '1',
+                        },
+                    }}
+                >
+                    +
+                </Button>
+            )}
+            {/* Example content */}
+            {state === 'filled' && <Typography>{eventName}</Typography>}
+        </Paper>
     );
 };

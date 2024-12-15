@@ -19,13 +19,15 @@ export async function getStudentLoginData(
 export async function createNewStudent(name: string) {
     const logData = await getStudentLoginData(name);
 
-    await apiClient.post('/Sportsmen/RegisterSportsmen', {
+    const response = await apiClient.post('/Sportsmen/RegisterSportsmen', {
         fullName: name,
         userName: logData.login,
         Password: logData.password,
     });
 
-    return logData;
+    const id = response.data;
+
+    return { ...logData, id };
 }
 
 export async function deleteStudent(id: string): Promise<number> {

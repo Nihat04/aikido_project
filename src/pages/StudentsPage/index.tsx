@@ -31,11 +31,8 @@ function searchStudents(studentsList: Student[], searchString: string) {
 }
 
 const StudentsPage = () => {
-    const {
-        register,
-        handleSubmit,
-        // formState: { errors },
-    } = useForm();
+    const { register, handleSubmit } = useForm();
+
     const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
     const [deleteModal, setDeleteModal] = useState<{
         state: boolean;
@@ -56,6 +53,10 @@ const StudentsPage = () => {
             alert(
                 `Ученик ${data.name} создан\nимя пользователя: ${res.login}\nпароль: ${res.password}`
             );
+            setStudentsList([
+                ...studentsList,
+                { id: res.id, fullName: data.name },
+            ]);
         });
     };
 
