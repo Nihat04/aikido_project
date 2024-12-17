@@ -1,0 +1,11 @@
+.group {
+    display: flex;
+    padding: 20px 30px;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.submit-btn {
+    width: max-content;
+}

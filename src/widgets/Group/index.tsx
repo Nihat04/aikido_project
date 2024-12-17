@@ -13,7 +13,9 @@ import { FormInput } from '@/shared/ui/Inputs';
 import { StudentsList, StudentsListInput } from '@/shared/ui/StudentsList';
 import { FieldValues, useForm } from 'react-hook-form';
 
-const Group = ({ group }: { group: GroupType }) => {
+type GroupProps = { group: GroupType };
+
+const Group: React.FC<GroupProps> = ({ group }) => {
     const {
         register,
         handleSubmit,

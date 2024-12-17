@@ -7,9 +7,9 @@
     padding: 9px 17px;
     justify-content: space-between;
     align-items: center;
-    background: #E2E2E2;
+    background: #e2e2e2;
 }
 
 .item:nth-child(2n) {
-    background: #FFFFFF;
+    background: #ffffff;
 }

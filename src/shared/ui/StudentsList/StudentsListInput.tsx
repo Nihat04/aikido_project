@@ -15,7 +15,7 @@ export const StudentsListInput: React.FC<StudentsListInputProps> = ({
     list,
 }) => {
     return (
-        <div>
+        <div className={styles['list-wrapper']}>
             <ul className={styles['list']}>
                 {list.map((student, index) => (
                     <li className={styles['item']} key={index}>

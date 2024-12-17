@@ -13,6 +13,7 @@ import { logUser } from '../features/store/user/userSlice';
 import StudentsPage from '../pages/StudentsPage';
 import GroupsPage from '../pages/GroupsPage';
 import AdminSchedulePage from '@/pages/AdminSchedulePage/AdminSchedulePage';
+import AttendancePage from '@/pages/AttendancePage/AttendancePage';
 
 type route = {
     path: string;
@@ -24,7 +25,7 @@ const PUBLIC_ROUTES: route[] = [
     { path: '/schedule', element: <MainPage /> },
     { path: '/manageSchedule', element: <AdminSchedulePage /> },
     { path: '/groups', element: <GroupsPage /> },
-    { path: '/visits', element: <MainPage /> },
+    { path: '/attendance', element: <AttendancePage /> },
     { path: '/login', element: <AuthorizationPage /> },
     { path: '/account', element: <ProfilePage /> },
     { path: '/students', element: <StudentsPage /> },

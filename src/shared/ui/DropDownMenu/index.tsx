@@ -2,21 +2,26 @@ import { useState } from 'react';
 import styles from './index.module.css';
 import classNames from 'classnames';
 
-export const DropDownMenu = ({
-    children,
-    title,
-    className = '',
-}: {
+type DropdownMenuProps = {
     children: JSX.Element;
     title: string;
+    time?: string;
     className?: string;
+};
+
+export const DropDownMenu: React.FC<DropdownMenuProps> = ({
+    children,
+    title,
+    time = null,
+    className = '',
 }) => {
     const [open, setOpen] = useState<boolean>(false);
 
     return (
         <div className={className}>
             <div className={styles['preview']} onClick={() => setOpen(!open)}>
-                {title}
+                {time && <p>{time}</p>}
+                <p>{title}</p>
             </div>
             <div
                 className={classNames(styles['menu'], {
