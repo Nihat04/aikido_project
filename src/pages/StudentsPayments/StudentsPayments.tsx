@@ -59,9 +59,7 @@ const StudentsPayments: React.FC = () => {
     }, [user]);
 
     const setPayment = (studentId: string, date: string, price: number) => {
-        createPayment(studentId, date, String(price)).then(() =>
-            location.reload()
-        );
+        createPayment(studentId, date, String(price));
     };
 
     return (

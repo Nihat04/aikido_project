@@ -1,3 +1,4 @@
+import { Payment } from '@/entities/lesson/model/types/payment';
 import apiClient from '@/shared/api/apiClient';
 
 export async function CreatePayment(
@@ -23,6 +24,19 @@ export async function CreatePayment(
         },
     });
     const data = await res.data;
+
+    return data;
+}
+
+export async function getStudentPayment(
+    sportsmenId: string,
+    month: number
+): Promise<Payment> {
+    const response = await apiClient.post(`/api/Pay/GetPaysSportsmen`, {
+        sportsmenId,
+        month,
+    });
+    const data = await response.data;
 
     return data;
 }
