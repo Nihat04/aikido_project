@@ -1,0 +1,63 @@
+.island {
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.input-wrapper {
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.list {
+    list-style: none;
+}
+
+.list-item {
+    display: flex;
+    padding: 10px 17px;
+    gap: 10px;
+}
+
+.limit-section {
+    max-width: 661px;
+}
+
+.centered {
+    margin: 0 auto;
+}
+
+.finder {
+    margin-bottom: 60px;
+    width: 100%;
+}
+
+.modal-content {
+    padding: 40px 35px;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.modal-sm {
+    max-width: 330px;
+}
+
+.modal-big {
+    max-width: 480px;
+}
+
+.modal-title {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-btns {
+    display: flex;
+    justify-content: space-between;
+}

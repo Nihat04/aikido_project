@@ -80,7 +80,7 @@ export const ScheduleTable: React.FC<{ lessons: Lesson[] }> = ({ lessons }) => {
                     const time = new Date('1899-12-31T' + lesson.time);
 
                     if (date.getDay() === day.getDay()) {
-                        if (time <= slot && endTime > slot) {
+                        if (time >= slot && time < endTime) {
                             const overallDateMillis =
                                 slot.getTime() + day.getTime();
 

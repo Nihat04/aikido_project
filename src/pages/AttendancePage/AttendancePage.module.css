@@ -9,3 +9,9 @@
 .submit-btn {
     width: max-content;
 }
+
+.list {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}

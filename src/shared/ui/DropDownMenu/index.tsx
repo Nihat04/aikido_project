@@ -20,8 +20,9 @@ export const DropDownMenu: React.FC<DropdownMenuProps> = ({
     return (
         <div className={className}>
             <div className={styles['preview']} onClick={() => setOpen(!open)}>
-                {time && <p>{time}</p>}
+                {time && <p className={styles['toleft']}>{time}</p>}
                 <p>{title}</p>
+                {time && <div />}
             </div>
             <div
                 className={classNames(styles['menu'], {

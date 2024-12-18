@@ -5,11 +5,8 @@ import { RedGradientButton } from '../../shared/ui';
 import imagePlaceholder from '../../shared/assets/img/img_placeholder.jpeg';
 
 import Header from '../../widgets/Header/Header';
-import { useEffect } from 'react';
 
 const ProfilePage = () => {
-    useEffect(() => {}, []);
-
     return (
         <>
             <Header />

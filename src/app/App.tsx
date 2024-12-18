@@ -14,6 +14,9 @@ import StudentsPage from '../pages/StudentsPage';
 import GroupsPage from '../pages/GroupsPage';
 import AdminSchedulePage from '@/pages/AdminSchedulePage/AdminSchedulePage';
 import AttendancePage from '@/pages/AttendancePage/AttendancePage';
+import StudentsPayments from '@/pages/StudentsPayments/StudentsPayments';
+import PayPage from '@/pages/PayPage/PayPage';
+import SchedulePage from '@/pages/SchedulePage/SchedulePage';
 
 type route = {
     path: string;
@@ -22,13 +25,15 @@ type route = {
 
 const PUBLIC_ROUTES: route[] = [
     { path: '/', element: <MainPage /> },
-    { path: '/schedule', element: <MainPage /> },
+    { path: '/activity', element: <SchedulePage /> },
+    { path: '/managePays', element: <StudentsPayments /> },
     { path: '/manageSchedule', element: <AdminSchedulePage /> },
     { path: '/groups', element: <GroupsPage /> },
     { path: '/attendance', element: <AttendancePage /> },
     { path: '/login', element: <AuthorizationPage /> },
     { path: '/account', element: <ProfilePage /> },
     { path: '/students', element: <StudentsPage /> },
+    { path: '/pay', element: <PayPage /> },
 ];
 
 function App() {

@@ -21,7 +21,7 @@ const COACH_LINKS: navLink[] = [
     { label: 'ученики', path: '/students' },
     { label: 'создать расписание', path: '/manageSchedule' },
     { label: 'отметить посещение', path: '/attendance' },
-    { label: 'оплата занятий', path: '/pay' },
+    { label: 'оплата занятий', path: '/managePays' },
 ];
 
 const STUDENT_LINKS: navLink[] = [

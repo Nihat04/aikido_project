@@ -113,6 +113,7 @@ const Group: React.FC<GroupProps> = ({ group }) => {
                             onChange={(e) => setSearch(e.target.value)}
                         />
                         <StudentsListInput
+                            width="100%"
                             list={freeStudents}
                             checkBoxProps={{ ...register('studentsIds') }}
                         />

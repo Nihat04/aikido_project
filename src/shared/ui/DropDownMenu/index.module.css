@@ -1,7 +1,8 @@
 .preview {
-    padding: 10px 0;
+    display: flex;
+    padding: 10px 40px;
     width: 100%;
-    text-align: center;
+    justify-content: space-between;
     cursor: pointer;
     background-color: #fff;
     border-radius: 15px;
