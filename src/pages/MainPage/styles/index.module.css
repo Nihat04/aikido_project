@@ -46,10 +46,33 @@
 }
 
 @media screen and (max-width: 1570px) {
-
     .welcome__text {
         width: 1000px;
         left: 200px;
+    }
+
+    .welcome__text--red {
+        color: #e2e2e2;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .welcome__text {
+        width: auto;
+        left: 100px;
+    }
+
+    .welcome__text--red {
+        color: #e2e2e2;
+    }
+}
+
+@media screen and (max-width: 860px) {
+    .welcome__text {
+        width: auto;
+        left: 50%;
+        font-size: 3rem;
+        transform: translateX(-50%);
     }
 
     .welcome__text--red {

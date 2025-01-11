@@ -17,6 +17,15 @@ export async function setAttendance(students: setProps[]) {
     return data;
 }
 
+export async function setAttendance2(students: setProps) {
+    const response = await apiClient.post(`/Sportsmen/ChangeAttendance`, [
+        students,
+    ]);
+    const data = await response.data;
+
+    return data;
+}
+
 export async function getAttendances(studentId: string): Promise<Attendance[]> {
     const response = await apiClient.get(
         `/Sportsmen/GetAttendance?sportsmanId=${studentId}`

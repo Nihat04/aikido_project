@@ -34,7 +34,20 @@ export async function getStudentPayment(
 ): Promise<Payment> {
     const response = await apiClient.post(`/api/Pay/GetPaysSportsmen`, {
         sportsmenId,
-        month,
+        month: month + 1,
+    });
+    const data = await response.data;
+
+    return data;
+}
+
+export async function getCoachPayment(
+    groupId: string,
+    month: number
+): Promise<Payment> {
+    const response = await apiClient.post(`/api/Pay/GetPaysForCoach`, {
+        coachId: groupId,
+        month: month + 1,
     });
     const data = await response.data;
 

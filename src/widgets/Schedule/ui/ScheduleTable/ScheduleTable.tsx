@@ -1,4 +1,11 @@
-import { Typography, Stack, Paper, SxProps, IconButton } from '@mui/material';
+import {
+    Typography,
+    Stack,
+    Paper,
+    SxProps,
+    IconButton,
+    useMediaQuery,
+} from '@mui/material';
 
 import { SheduleWindow } from '../ScheduleWindow/ScheduleWindow';
 
@@ -11,6 +18,7 @@ import {
 } from '@/features/dateController';
 import React, { useMemo, useState } from 'react';
 import { Lesson } from '@/entities/lesson';
+import json2mq from 'json2mq';
 
 const weekDays = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
 
@@ -36,37 +44,45 @@ const formatTime = (
 
 const dynamicElValue = 'calc(100% / 8)';
 
-const containerStyles: SxProps = {
-    width: '100%',
-    alignItems: 'center',
-};
-
-const firstLineStyles: SxProps = {
-    width: '100%',
-};
-
-const headerStyle: SxProps = {
-    width: dynamicElValue,
-    height: '50px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    background: 'none',
-};
-
-const rowHeaderStyles: SxProps = {
-    display: 'flex',
-    width: dynamicElValue,
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'none',
-};
-
-const btnStyle: SxProps = {
-    border: '1px solid #000',
-};
-
 export const ScheduleTable: React.FC<{ lessons: Lesson[] }> = ({ lessons }) => {
+    const matches = useMediaQuery(
+        json2mq({
+            maxWidth: 810,
+        })
+    );
+
+    const containerStyles: SxProps = {
+        width: '100%',
+        alignItems: 'center',
+    };
+
+    const firstLineStyles: SxProps = {
+        width: '100%',
+    };
+
+    const headerStyle: SxProps = {
+        width: dynamicElValue,
+        height: '50px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        background: 'none',
+    };
+
+    const rowHeaderStyles: SxProps = {
+        display: 'flex',
+        width: dynamicElValue,
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'none',
+    };
+
+    const btnStyle: SxProps = {
+        width: matches ? '10px' : 'auto',
+        height: matches ? '10px' : 'auto',
+        border: '1px solid #000',
+    };
+
     const [currentWeek, setCurrentWeek] = useState(getCurrentWeekDays());
 
     const tableLessons = useMemo(() => {
@@ -125,7 +141,9 @@ export const ScheduleTable: React.FC<{ lessons: Lesson[] }> = ({ lessons }) => {
                                 <ArrowBackIcon sx={{ color: '#000' }} />
                             </IconButton>
                         )}
-                        <Typography>{`${weekDays[day.getDay()]} ${day.getDate()}.${day.getMonth() + 1}`}</Typography>
+                        <Typography
+                            sx={matches && { fontSize: '12px' }}
+                        >{`${weekDays[day.getDay()]} ${day.getDate()}.${day.getMonth() + 1}`}</Typography>
                         {index === currentWeek.length - 1 && (
                             <IconButton
                                 sx={btnStyle}
@@ -151,7 +169,10 @@ export const ScheduleTable: React.FC<{ lessons: Lesson[] }> = ({ lessons }) => {
                     sx={{ width: '100%' }}
                 >
                     <Paper elevation={0} sx={rowHeaderStyles}>
-                        <Typography variant="body1">
+                        <Typography
+                            sx={matches && { fontSize: '12px' }}
+                            variant="body1"
+                        >
                             {`${formatTime(slot)}-${formatTime(slot, { addHours: 2 })}`}
                         </Typography>
                     </Paper>

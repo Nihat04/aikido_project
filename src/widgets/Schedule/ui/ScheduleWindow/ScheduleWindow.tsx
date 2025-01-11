@@ -1,17 +1,22 @@
 import React from 'react';
-import { Paper, Button, Typography } from '@mui/material';
+import { Paper, Typography, useMediaQuery } from '@mui/material';
+import json2mq from 'json2mq';
 
 type SheduleWindowProps = {
     eventName?: string;
-    onClick?: () => void;
     state: 'empty' | 'filled';
 };
 
 export const SheduleWindow: React.FC<SheduleWindowProps> = ({
     eventName,
-    onClick,
     state,
 }) => {
+    const matches = useMediaQuery(
+        json2mq({
+            maxWidth: 810,
+        })
+    );
+
     return (
         <Paper
             elevation={0}
@@ -25,27 +30,21 @@ export const SheduleWindow: React.FC<SheduleWindowProps> = ({
             }}
         >
             {/* Content goes here */}
-            {state === 'empty' && (
-                <Button
-                    onClick={onClick}
-                    variant="outlined"
-                    sx={{
-                        aspectRatio: '1',
-                        color: '#000',
-                        fontSize: '30px',
-                        border: '2px solid #000',
-                        borderRadius: '100%',
-                        opacity: '0',
-                        ':hover': {
-                            opacity: '1',
-                        },
-                    }}
-                >
-                    +
-                </Button>
-            )}
+            {state === 'empty' && <></>}
             {/* Example content */}
-            {state === 'filled' && <Typography>{eventName}</Typography>}
+            {state === 'filled' && (
+                <Typography
+                    sx={
+                        matches && {
+                            fontSize: '12px',
+                            writingMode: 'vertical-rl',
+                            textOrientation: 'upright',
+                        }
+                    }
+                >
+                    {eventName}
+                </Typography>
+            )}
         </Paper>
     );
 };

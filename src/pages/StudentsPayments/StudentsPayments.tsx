@@ -2,18 +2,29 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import Header from '@/widgets/Header/Header';
 import { DatePanel } from '@/shared/ui/DatePanel/DatePanel';
-import { Box, MenuItem, Stack } from '@mui/material';
+import { Box, MenuItem, Stack, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/features/store/store';
 import { getGroups, Group } from '@/entities/group';
 import { useNavigate } from 'react-router-dom';
 import { getLessons, Lesson } from '@/entities/lesson';
 import { FormInput } from '@/shared/ui/Inputs';
-import { CreatePayment as createPayment } from '@/entities/user';
-import { DropDownMenu } from '@/shared/ui/DropDownMenu';
-import { StudentsList } from './ui/StudentsList';
+import { getStudentPayment, Student } from '@/entities/user';
+import json2mq from 'json2mq';
+import { Payment } from '@/entities/lesson/model/types/payment';
+import { StudentsList2 } from './ui/StudentsList2';
+
+type payData = Student & {
+    payInfo: Payment;
+};
 
 const StudentsPayments: React.FC = () => {
+    const matches = useMediaQuery(
+        json2mq({
+            maxWidth: 940,
+        })
+    );
+
     const [date, setDate] = useState<Date>(new Date());
     const user = useSelector((state: RootState) => state.user);
     const [lessons, setLessons] = useState<Lesson[]>([]);
@@ -22,6 +33,7 @@ const StudentsPayments: React.FC = () => {
     const [currentGroup, setCurrentGroup] = useState<Group | undefined>(
         groups[0]
     );
+    const [studentsData, setStudentsData] = useState<payData[]>([]);
 
     const currentLessons = useMemo<Lesson[]>(() => {
         let filteredLessons = lessons.filter(
@@ -37,10 +49,13 @@ const StudentsPayments: React.FC = () => {
         });
 
         return filteredLessons;
-    }, [currentGroup]);
+    }, [currentGroup, date]);
+
+    const [updater, setUpdater] = useState(false);
+
     const groupPrice = useMemo<number>(() => {
         return currentLessons[0] ? currentLessons[0].price : 0;
-    }, [currentLessons]);
+    }, [currentLessons, date]);
 
     useEffect(() => {
         if (user.logedIn) {
@@ -56,11 +71,27 @@ const StudentsPayments: React.FC = () => {
         if (user.user) {
             getGroups(user.user.id).then((res) => setGroups(res));
         }
-    }, [user]);
 
-    const setPayment = (studentId: string, date: string, price: number) => {
-        createPayment(studentId, date, String(price));
-    };
+        const fetchStudentsData = async () => {
+            if (currentGroup) {
+                const studentsWithPayInfo = await Promise.all(
+                    currentGroup.sportsmens.map(async (student) => {
+                        const payInfo = await getStudentPayment(
+                            student.id,
+                            date.getMonth()
+                        );
+                        return {
+                            ...student,
+                            payInfo,
+                        };
+                    })
+                );
+                setStudentsData(studentsWithPayInfo);
+            }
+        };
+
+        fetchStudentsData();
+    }, [user, currentGroup, date, updater]);
 
     return (
         <>
@@ -70,8 +101,11 @@ const StudentsPayments: React.FC = () => {
                     <Box sx={{ marginBottom: '10px' }}>
                         <Stack
                             spacing={2}
-                            direction={'row'}
-                            sx={{ justifyContent: 'center' }}
+                            direction={matches ? 'column' : 'row'}
+                            sx={{
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
                         >
                             <DatePanel
                                 title="Выберите период оплаты"
@@ -132,30 +166,18 @@ const StudentsPayments: React.FC = () => {
                             </Box>
                         </Stack>
                     </Box>
+                </section>
+                <section>
                     <div>
                         <Stack spacing={2}>
-                            {currentGroup &&
-                                currentLessons.map((lesson, index) => (
-                                    <DropDownMenu
-                                        title={lesson.groupName}
-                                        time={lesson.date}
-                                    >
-                                        <Box
-                                            sx={{
-                                                padding: '20px',
-                                                backgroundColor: '#fff',
-                                                borderRadius: '15px',
-                                            }}
-                                        >
-                                            <StudentsList
-                                                list={currentGroup.sportsmens}
-                                                key={index}
-                                                clickAction={setPayment}
-                                                lesson={lesson}
-                                            />
-                                        </Box>
-                                    </DropDownMenu>
-                                ))}
+                            {currentGroup && (
+                                <StudentsList2
+                                    students={studentsData}
+                                    date={date}
+                                    updater={updater}
+                                    setUpdater={setUpdater}
+                                />
+                            )}
                         </Stack>
                     </div>
                 </section>

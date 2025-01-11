@@ -55,3 +55,10 @@
     display: flex;
     justify-content: space-between;
 }
+
+@media screen and (max-width: 650px) {
+    .group {
+        flex-direction: column;
+        gap: 30px;
+    }
+}

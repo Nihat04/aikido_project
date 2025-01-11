@@ -30,6 +30,10 @@
 
 /* nav */
 
+.burger-btn {
+    display: none !important;
+}
+
 .nav {
     display: flex;
     align-items: center;
@@ -62,6 +66,12 @@
     color: #fff;
 }
 
+.log-text {
+    font-size: 21px;
+    font-weight: 600;
+    color: #fff;
+}
+
 .profile__img {
     width: 52px;
     aspect-ratio: 1;
@@ -81,5 +91,45 @@
 
     .profile__name {
         font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 860px) {
+    .burger-btn {
+        display: block !important;
+    }
+
+    .container {
+        justify-content: start;
+    }
+
+    .profile {
+        margin-left: auto;
+    }
+
+    .nav {
+        display: none;
+        padding: 10px;
+        position: absolute;
+        left: 0;
+        top: 92px;
+        flex-direction: column;
+        background: var(--second-gradient) !important;
+        gap: 5px;
+        z-index: 100;
+    }
+
+    .profile__name {
+        display: none;
+    }
+
+    .nav--show {
+        display: flex;
+    }
+}
+
+@media screen and (max-width: 1030px) {
+    .logo__text {
+        display: none;
     }
 }

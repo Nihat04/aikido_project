@@ -24,11 +24,12 @@ const GroupsPage = () => {
     const user = useSelector((state: RootState) => state.user.user);
     const [groups, setGroups] = useState<Group[]>([]);
     const [createGroupModal, setCerateGroupModal] = useState<boolean>(false);
+    const [updater, setUpdater] = useState<boolean>(false);
     useEffect(() => {
         if (user) {
             getGroups(user.id).then((res) => setGroups(res));
         }
-    }, [user]);
+    }, [user, updater]);
 
     const onSubmit = (handleSubmit: FieldValues) => {
         if (user?.id) {
@@ -47,7 +48,13 @@ const GroupsPage = () => {
                     <Box sx={{ marginBottom: '30px' }}>
                         {groups.map((group, index) => (
                             <div key={index} className={styles['group']}>
-                                <GroupItem group={group} />
+                                <GroupItem
+                                    group={group}
+                                    updater={{
+                                        state: updater,
+                                        setter: setUpdater,
+                                    }}
+                                />
                             </div>
                         ))}
                     </Box>

@@ -5,7 +5,7 @@ import { Modal } from '@mui/material';
 import { DropDownMenu } from '../../shared/ui/DropDownMenu';
 import { RedGradientButton } from '../../shared/ui';
 import { GreyButton } from '../../shared/ui/GreyButton';
-import { useEffect, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { addStudent, deleteGroup, Group as GroupType } from '@/entities/group';
 import { getStudents, Student } from '@/entities/user';
 import classNames from 'classnames';
@@ -13,9 +13,12 @@ import { FormInput } from '@/shared/ui/Inputs';
 import { StudentsList, StudentsListInput } from '@/shared/ui/StudentsList';
 import { FieldValues, useForm } from 'react-hook-form';
 
-type GroupProps = { group: GroupType };
+type GroupProps = {
+    group: GroupType;
+    updater: { state: boolean; setter: Dispatch<SetStateAction<boolean>> };
+};
 
-const Group: React.FC<GroupProps> = ({ group }) => {
+const Group: React.FC<GroupProps> = ({ group, updater }) => {
     const {
         register,
         handleSubmit,
@@ -59,7 +62,8 @@ const Group: React.FC<GroupProps> = ({ group }) => {
         }
 
         addStudent(group.id, submit.studentsIds).then(() => {
-            location.reload();
+            updater.setter(!updater.state);
+            setAddStudentModalOpen(false);
         });
     };
 

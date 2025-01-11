@@ -6,6 +6,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import json2mq from 'json2mq';
 
 const month = [
+    'Декабрь',
     'Январь',
     'Февраль',
     'Март',
@@ -17,7 +18,6 @@ const month = [
     'Сентябрь',
     'Октябрь',
     'Ноябрь',
-    'Декабрь',
 ];
 
 type DatePanelProps = {
@@ -30,7 +30,7 @@ const btnStyle: SxProps = {
     border: '1px solid #000',
 };
 
-export const DatePanel: React.FC<DatePanelProps> = ({
+export const DatePanel2: React.FC<DatePanelProps> = ({
     title,
     date,
     setDate,

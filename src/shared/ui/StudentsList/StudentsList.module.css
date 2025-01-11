@@ -13,3 +13,9 @@
 .item:nth-child(2n) {
     background: #ffffff;
 }
+
+@media screen and (max-width: 650px) {
+    .list-wrapper {
+        width: 100%;
+    }
+}

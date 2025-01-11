@@ -4,50 +4,68 @@ import {
     getPreviousWeekDays,
     getNextWeekDays,
 } from '@/features/dateController';
-import { Stack, Paper, IconButton, Typography, SxProps } from '@mui/material';
+import {
+    Stack,
+    Paper,
+    IconButton,
+    Typography,
+    SxProps,
+    useMediaQuery,
+} from '@mui/material';
 import React, { useState } from 'react';
 import { ScheduleWindow } from '../ScheduleWindow/ScheduleWindow';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import json2mq from 'json2mq';
 
 const weekDays = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
 
 const dynamicElValue = 'calc(100% / 8)';
 
-const containerStyles: SxProps = {
-    width: '100%',
-    alignItems: 'center',
-};
-
-const firstLineStyles: SxProps = {
-    width: '100%',
-};
-
-const headerStyle: SxProps = {
-    width: dynamicElValue,
-    height: '50px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    background: 'none',
-};
-
-const rowHeaderStyles: SxProps = {
-    display: 'flex',
-    width: dynamicElValue,
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: 'none',
-};
-
-const btnStyle: SxProps = {
-    border: '1px solid #000',
-};
-
 export const Table: React.FC<{ attendances: Attendance[] }> = ({
     attendances,
 }) => {
+    const matches = useMediaQuery(
+        json2mq({
+            maxWidth: 1090,
+        })
+    );
+
+    const containerStyles: SxProps = {
+        width: '100%',
+        alignItems: 'center',
+    };
+
+    const firstLineStyles: SxProps = {
+        width: '100%',
+    };
+
+    const headerStyle: SxProps = {
+        width: dynamicElValue,
+        height: '50px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        background: 'none',
+        flexDirection: matches ? 'column' : 'row',
+    };
+
+    const rowHeaderStyles: SxProps = {
+        display: 'flex',
+        width: dynamicElValue,
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'none',
+    };
+
+    const btnStyle: SxProps = {
+        width: matches ? '10px' : 'auto',
+        height: matches ? '10px' : 'auto',
+        border: '1px solid #000',
+        order: matches ? -1 : 'unset',
+    };
+
     const [currentWeek, setCurrentWeek] = useState(getCurrentWeekDays());
 
     const getState = (day: Date): 'empty' | 'red' | 'green' | 'unknown' => {
@@ -86,7 +104,9 @@ export const Table: React.FC<{ attendances: Attendance[] }> = ({
                                 <ArrowBackIcon sx={{ color: '#000' }} />
                             </IconButton>
                         )}
-                        <Typography>{`${weekDays[day.getDay()]} ${day.getDate()}.${day.getMonth() + 1} ${day.getFullYear()}`}</Typography>
+                        <Typography
+                            sx={{ fontSize: matches && '12px' }}
+                        >{`${weekDays[day.getDay()]} ${day.getDate()}.${day.getMonth() + 1} ${day.getFullYear()}`}</Typography>
                         {index === currentWeek.length - 1 && (
                             <IconButton
                                 sx={btnStyle}

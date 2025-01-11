@@ -63,7 +63,12 @@ const AdminSchedulePage: React.FC = () => {
                 coachId: user.user?.id,
                 time: fields.time + ':00',
                 price: Number(fields.price),
-            }).then(() => setCreateModalOpen(false));
+            }).then(() => {
+                if (user.user?.id) {
+                    getLessons(user.user?.id).then((res) => setLessons(res));
+                }
+                setCreateModalOpen(false);
+            });
         }
     };
 

@@ -1,13 +1,6 @@
 export type Payment = {
     payResponses: {
-        date: {
-            year: number;
-            month: number;
-            day: number;
-            dayOfWeek: number;
-            dayOfYear: number;
-            dayNumber: number;
-        };
+        date: Date;
         paid: number;
         image: string;
     }[];

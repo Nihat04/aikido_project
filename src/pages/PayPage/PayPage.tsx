@@ -1,7 +1,7 @@
 import { RootState } from '@/features/store/store';
 import { DatePanel } from '@/shared/ui/DatePanel/DatePanel';
 import Header from '@/widgets/Header/Header';
-import { Box, Stack } from '@mui/material';
+import { Box, Stack, useMediaQuery } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -9,6 +9,7 @@ import { CreatePayment, getStudentPayment } from '@/entities/user';
 import { FormInput } from '@/shared/ui/Inputs';
 import { RedGradientButton } from '@/shared/ui';
 import { Payment } from '@/entities/lesson/model/types/payment';
+import json2mq from 'json2mq';
 
 type FormProps = {
     sum: string;
@@ -25,6 +26,12 @@ const infoStyle: React.CSSProperties = {
 };
 
 const PayPage: React.FC = () => {
+    const matches = useMediaQuery(
+        json2mq({
+            maxWidth: 940,
+        })
+    );
+
     const { register, handleSubmit } = useForm<FormProps>();
 
     const [date, setDate] = useState<Date>(new Date());
@@ -83,7 +90,7 @@ const PayPage: React.FC = () => {
                     >
                         {payment && (
                             <Stack
-                                direction={'row'}
+                                direction={matches ? 'column' : 'row'}
                                 sx={{
                                     paddingBottom: '50px',
                                     justifyContent: 'space-around',
@@ -143,47 +150,6 @@ const PayPage: React.FC = () => {
                                 </div>
                             </Stack>
                         </form>
-                        {/* {visibleAttendances.map((attendance, index) => (
-                            <DropDownMenu key={index} title={attendance.date}>
-                                <Box
-                                    sx={{
-                                        padding: '20px 30px',
-                                        backgroundColor: '#fff',
-                                        borderRadius: '15px',
-                                    }}
-                                >
-                                    <Box
-                                        sx={{
-                                            paddingBottom: '5px',
-                                            borderBottom: '3px solid #000',
-                                        }}
-                                    >
-                                        <p>
-                                            Посещение:{' '}
-                                            {attendance.isPresent
-                                                ? 'присутствовал'
-                                                : 'отсутствовал'}
-                                        </p>
-                                    </Box>
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            padding: '20px 30px',
-                                            justifyContent: 'space-between',
-                                            backgroundColor: '#fff',
-                                            borderRadius: '15px',
-                                        }}
-                                    >
-                                        {user.user && (
-                                            <PayForm
-                                                studentId={user.user?.id}
-                                                attendance={attendance}
-                                            />
-                                        )}
-                                    </Box>
-                                </Box>
-                            </DropDownMenu>
-                        ))} */}
                     </Stack>
                 </section>
             </main>

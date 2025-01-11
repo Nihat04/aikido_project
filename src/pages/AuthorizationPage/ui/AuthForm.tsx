@@ -60,6 +60,7 @@ export const AuthForm = () => {
                                 required:
                                     'Поле "Логин" обязательна к заполнению',
                             })}
+                            error={errors.login}
                         />
                         <AuthPasswordInput
                             label="Пароль"
@@ -67,6 +68,7 @@ export const AuthForm = () => {
                                 required:
                                     'Поле "Пароль" обязательна к заполнению',
                             })}
+                            error={errors.password}
                         />
                         {handleErrors(errors).map((errorMsg, index) => (
                             <p
